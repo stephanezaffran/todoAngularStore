@@ -1,0 +1,35 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items:center;
+  }
+  h2{
+    font-size: 2em;    
+  }
+  h2:hover{
+    color:brown
+  }
+
+  .header{
+    height: 5em;
+
+  }
+  .new-task-form{
+    display: grid;
+    border: 2px solid black;
+    width:100%;
+    
+  }
+
+  .user-list{
+    display: grid;
+    border: 2px solid black ;
+    width:100%;
+    justify-items:center;
+  }
+
+  #header-text{
+    align-self:center;
+    height: 5em;
+    text-decoration:none;
+  }

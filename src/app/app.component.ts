@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NewTaskComponent } from './todo/new-task/new-task.component';
+
 
 @Component({
   selector: 'app-root',

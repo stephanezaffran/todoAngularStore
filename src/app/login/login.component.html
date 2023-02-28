@@ -1,0 +1,28 @@
+<div class="header" ><p style="font-size:2em">code to connect root/root</p></div>
+  <div class="grid-container">
+    <form #loginForm="ngForm">
+      <div class="inputForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" [(ngModel)]="name" name="name" required />
+      </div>
+      <div class="inputForm">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
+      </div>
+    </form>
+    <div class="card-action center">
+      <a
+        (click)="login()"
+        *ngIf="!auth.getToken()"
+        >Se connecter</a
+      >
+      <a (click)="logout()" *ngIf="auth.getToken()">Se déconnecter</a>
+    </div>
+  </div>
+
