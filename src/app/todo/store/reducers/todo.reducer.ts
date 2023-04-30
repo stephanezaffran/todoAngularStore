@@ -11,7 +11,7 @@ const initialTaskState: TaskState = {
 };
 
 export function taskReducer(
-  taskStateList = initialTaskState,
+  taskStateList:TaskState = initialTaskState,
   action: Action
 ): TaskState {
   const taskAction = action as TaskAction;
@@ -22,8 +22,8 @@ export function taskReducer(
 
       //console.table( <TaskState>{ task:{...taskAction.payload.task,id:getBiggestTaskId(taskStateList) + 1}});
       console.table(taskStateList);
-
-      return <TaskState>{
+      //return new state sorted
+      return sortTaskList(<TaskState>{
         task: [
           ...taskStateList.task,
           <Task>{
@@ -31,7 +31,7 @@ export function taskReducer(
             id: getBiggestTaskId(taskStateList.task) + 1,
           },
         ],
-      };
+      });
 
     // return  [
     //   ...taskStateList,{ task:{...taskAction.payload.task,id:getBiggestTaskId(taskStateList) + 1}}
@@ -44,7 +44,11 @@ export function taskReducer(
     //myTask.id = getBiggestTaskId(taskStateList) + 1;
 
     case TaskActionTypes.Reset:
-      return taskStateList;
+     return  <TaskState>{
+        task:removeTask(taskStateList.task,taskAction.payload.task)
+      };
+
+     
 
     // return Object.assign({}, taskStateList, {
     //   ...action.payload,
@@ -67,15 +71,33 @@ function getBiggestTaskId(taskList: Task[]): number {
 }
 
 function sortTaskList(taskList: TaskState) : TaskState{
-  let sortedTaskList!:TaskState ;
-  if(taskList.task.length > 2){
-    sortedTaskList.task = taskList.task.sort(
+  //let sortedTaskList :TaskState = {...taskList} ;
+  if(taskList.task.length > 1){
+    taskList.task = taskList.task.sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
-    return sortedTaskList;
+    console.table(`sortedTaskList ${taskList.task}`);
+    return taskList;
   }
+
+  console.table(`sortedTaskList ${taskList.task}`);
   return taskList;
   
+}
+
+function removeTask(taskList: Task[], task:Task) : Task[]{
+
+  console.log(`removed task reducer taskList.task.findIndex ${task.message}`)
+  const index: number = taskList.findIndex(
+    value => value.id === task.id
+  );
+  console.log(`removed task reducer index value ${index}`)
+  let tl:Task[] = [...taskList];
+  //const lt: TaskState = taskList;
+  console.table(`removed task  ${tl.splice(index, 1)  }}`);
+ // taskList.task.splice(index, 1);
+
+  return tl;
 }
 
 // this.taskList.push({ ...task, id: this.biggestTaskId.id + 1 });

@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, map, Observable, of, Subject, tap } from 'rxjs';
 import { Task } from 'src/app/model/task';
-import { TaskAdd } from '../store/actions/todo.action';
+import { TaskAdd,TaskReset } from '../store/actions/todo.action';
 import { selectTaskList, TaskState } from '../store/reducers/todo.reducer';
 
 @Injectable()
@@ -18,8 +18,7 @@ export class TaskManagerService {
       .pipe(
         select((state: any) => state.appTaskState.task),
         //tap((tasks) => (this.tasksList$ = of(tasks))),
-        tap(() => console.log('in task manager service pipe')),
-        tap((tasks) => console.log(tasks))
+        tap((tasks) => console.log(`in task manager service pipe  ${tasks}`))
       )
       .subscribe((tasks) => {
         //(this.tasksList$ = of(tasks)),
@@ -51,11 +50,13 @@ export class TaskManagerService {
     return this.subjectTasksList$.asObservable();
   }
 
-  retrieveTask(task: Task) {
+  retrieveTask(task: Task): void {
     console.log('task.id :  ' + task.id);
-    const index: number = this.tasksList.findIndex(
-      (value) => value.id === task.id
-    );
+
+    this.store.dispatch(new TaskReset({ task }));
+    // const index: number = this.tasksList.findIndex(
+    //   (value) => value.id === task.id
+    // );
 
     // this.tasksList.splice(index, 1);
     //this.tasksList$.next(this.tasksList);
